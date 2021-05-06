@@ -38,6 +38,8 @@ class MyRTC {
 
   emitMeesage: null | Function;
 
+  setRemote: null | Function;
+
   constructor(stream: MediaStream) {
     this.localStream = stream;
     this.isOffer = false;
@@ -46,6 +48,11 @@ class MyRTC {
     this.pc = null;
     this.emitMeesage = null;
     this.remoteStream = null;
+    this.setRemote = null;
+  }
+
+  setRemoteFunc(func: Function) {
+    this.setRemote = func;
   }
 
   setEmitMessage(func: Function) {
@@ -76,7 +83,7 @@ class MyRTC {
       type: CANDIDATE_TYPE,
       label: sdpMLineIndex,
       id: sdpMid,
-      candidate: event.candidate,
+      candidate: event.candidate.candidate,
     };
 
     this.emitMeesage(message);
@@ -86,6 +93,7 @@ class MyRTC {
     const { stream } = e;
 
     if (stream) this.remoteStream = stream;
+    if (stream && this.setRemote) this.setRemote(stream);
   }
 
   doCall() {

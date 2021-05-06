@@ -13,22 +13,20 @@ const MESSAGE_EVENT_NAME = 'message';
 class MySocket {
   socket: Socket;
 
-  isOffer: boolean;
-
-  isReady: boolean;
-
   myRTC: MyRTC;
 
   constructor(myRTC: MyRTC) {
     this.socket = io(BACKEND_URL);
-    this.isOffer = false;
-    this.isReady = false;
+
     this.myRTC = myRTC;
-    this.myRTC.setEmitMessage(this.emitMessage);
+    this.setEvent();
+    this.myRTC.setEmitMessage(this.emitMessage.bind(this));
   }
 
   joinRoom(roomName: string) {
     this.socket.emit('join', roomName);
+    this.emitMessage('start');
+    if (this.myRTC.isOffer) this.myRTC.startConnection();
   }
 
   emitMessage(message: TMessage) {
@@ -37,11 +35,11 @@ class MySocket {
 
   setEvent() {
     this.socket.on('master', () => {
-      this.isOffer = true;
+      this.myRTC.setIsOffer(true);
     });
 
     this.socket.on('joined', () => {
-      this.isReady = true;
+      this.myRTC.setIsReady(true);
     });
 
     this.socket.on('message', (message: TMessage) => {
