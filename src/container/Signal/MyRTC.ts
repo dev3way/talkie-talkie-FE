@@ -25,11 +25,17 @@ export type ThandlerIcecandidateMessage = {
 
 class MyRTC {
   pc: null | RTCPeerConnection;
+
   localStream: MediaStream;
+
   remoteStream: null | MediaStream;
+
   isOffer: boolean;
+
   isReady: boolean;
+
   isStarted: boolean;
+
   emitMeesage: null | Function;
 
   constructor(stream: MediaStream) {

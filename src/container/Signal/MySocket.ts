@@ -12,8 +12,11 @@ const MESSAGE_EVENT_NAME = 'message';
 
 class MySocket {
   socket: Socket;
+
   isOffer: boolean;
+
   isReady: boolean;
+
   myRTC: MyRTC;
 
   constructor(myRTC: MyRTC) {
