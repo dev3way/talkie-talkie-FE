@@ -1,11 +1,12 @@
+/* eslint-disable import/extensions */
 import React from 'react';
-
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Test from './src/components/HashInput';
 
 const App = () => {
   return (
     <View style={styles.sectionContainer}>
-      <Text style={[{ fontSize: 24 }]}>hello talkie_talkie</Text>
+      <Test />
     </View>
   );
 };
